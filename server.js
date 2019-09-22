@@ -25,8 +25,13 @@ const express = require("express");
 var bodyParser = require("body-parser");
 const app = express();
 
-app.use((request, response, next) => {
+app.use((request, res, next) => {
   console.log(request.headers);
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
 
@@ -35,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", function(req, res) {
-  res.sendfile("index.html");
+  res.sendfile("byte-app/public/index.html");
 });
 
 // app.post("/login", function(req, res) {
@@ -52,31 +57,63 @@ function writeData(msgtxt) {
   });
 }
 
-app.post("/messages", function(req, res) {
+app.get("/messages", function(req, res) {
   var message = req.body.message;
   console.log("Message = " + message);
-  writeData(message);
-  res.send(readData());
-});
-
-function readData() {
-  results = null;
+  // console.log("data(server): ", readData());
   var ref = db.ref("messages/");
-  // Attach an asynchronous callback to read the data at our posts reference
   ref.on(
     "value",
     function(snapshot) {
-      results = snapshot.val();
+      res.send(snapshot.val());
+
       console.log("snap:", snapshot.val());
     },
     function(errorObject) {
       console.log("The read failed: " + errorObject.code);
     }
   );
+  //res.send(readData());
+});
 
-  return results;
-}
+app.post("/messages", function(req, res) {
+  var message = req.body.message;
+  console.log("Message = " + message);
+  writeData(message);
+  // console.log("data(server): ", readData());
+  var ref = db.ref("messages/");
+  ref.on(
+    "value",
+    function(snapshot) {
+      res.send(snapshot.val());
 
-app.listen(3000, function() {
-  console.log("server is running on port 3000");
+      console.log("snap:", snapshot.val());
+    },
+    function(errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    }
+  );
+  //res.send(readData());
+});
+
+// function readData() {
+//   let results = null;
+//   var ref = db.ref("messages/");
+//   // Attach an asynchronous callback to read the data at our posts reference
+//   ref.on(
+//     "value",
+//     function(snapshot) {
+//       results = snapshot.val();
+//       console.log("snap:", snapshot.val());
+//     },
+//     function(errorObject) {
+//       console.log("The read failed: " + errorObject.code);
+//     }
+//   );
+
+//   return results;
+// }
+
+app.listen(9000, function() {
+  console.log("server is running on port 9000");
 });
