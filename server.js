@@ -19,64 +19,64 @@ var config = {
 firebase.initializeApp(config);
 
 // Get a reference to the database service
-var database = firebase.database();
+var db = firebase.database();
 
-
-
-const express = require('express')
+const express = require("express");
 var bodyParser = require("body-parser");
-const app = express()
+const app = express();
 
 app.use((request, response, next) => {
-  console.log(request.headers)
-  next()
-})
+  console.log(request.headers);
+  next();
+});
 
 // Using bodyParser as a middle-ware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.use((request, response, next) => {
-//   request.chance = Math.random()
-//   next()
-// })
-
-// app.get('/', (request, response) => {
-//   response.json({
-//     chance: request.chance
-//   })
-// })
-
-app.get('/jsontest', (request, response) => {
-  //response.send('Hello from Express!')
-  response.json({title: 'Hello JSON'})
-})
-
-app.get('/',function(req,res){
+app.get("/", function(req, res) {
   res.sendfile("index.html");
 });
 
-app.post('/login',function(req,res){
-  var user_name=req.body.user;
-  var password=req.body.password;
-  console.log("User name = "+user_name+", password is "+password);
-  res.end("done");
-});
+// app.post("/login", function(req, res) {
+//   var user_name = req.body.user;
+//   var password = req.body.password;
+//   console.log("User name = " + user_name + ", password is " + password);
+//   res.end("done");
+// });
 
 function writeData(msgtxt) {
-  firebase.database().ref('messages/').set({
-    message: msgtxt
+  const timestamp = String(new Date()).slice(0, 24);
+  db.ref(`messages/${timestamp}`).set({
+    msg_text: msgtxt
   });
 }
 
-app.post('/messages',function(req,res){
-  var message=req.body.message;
-  console.log("Message = "+message);
+app.post("/messages", function(req, res) {
+  var message = req.body.message;
+  console.log("Message = " + message);
   writeData(message);
-  res.end("done");
+  res.send(readData());
 });
 
+function readData() {
+  results = null;
+  var ref = db.ref("messages/");
+  // Attach an asynchronous callback to read the data at our posts reference
+  ref.on(
+    "value",
+    function(snapshot) {
+      results = snapshot.val();
+      console.log("snap:", snapshot.val());
+    },
+    function(errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    }
+  );
 
-app.listen(3000, function(){
-    console.log("server is running on port 3000");
-})
+  return results;
+}
+
+app.listen(3000, function() {
+  console.log("server is running on port 3000");
+});
