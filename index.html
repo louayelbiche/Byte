@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>Message board</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
+    <script>
+      $(document).ready(function(){
+        var user,pass;
+        var message;
+        $("#submit").click(function(){
+          // user=$("#user").val();
+          // pass=$("#password").val();
+          message=$("#message").val();
+          //console.log(message);
+          //$.post("http://localhost:3000/login",{user: user,password: pass}, function(data){
+          $.post("http://localhost:3000/messages",{message: message}, function(data){
+            if(data==='done')
+              {
+                alert("login success");
+              }
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Welcome to the message board!</h1>
+    <h4> Type your message below </h4>
+    <input type="TEXT" id="message" size="40"><br> //check size limit
+    <!-- <input type="TEXT" id="user" size="40"><br>
+    <input type="password" id="password" size="40"><br> -->
+    <input type="button" id="submit" value="Submit">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/6.6.2/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+
+  </body>
+</html>
