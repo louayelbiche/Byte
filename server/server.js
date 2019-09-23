@@ -1,3 +1,25 @@
+const express = require("express");
+var bodyParser = require("body-parser");
+const app = express();
+
+app.use((request, res, next) => {
+  console.log(request.headers);
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+// Using bodyParser as a middle-ware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.get("/", function(req, res) {
+  res.sendfile("byte-app/public/index.html");
+});
+
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 var firebase = require("firebase/app");
@@ -21,28 +43,6 @@ firebase.initializeApp(config);
 // Get a reference to the database service
 var db = firebase.database();
 
-const express = require("express");
-var bodyParser = require("body-parser");
-const app = express();
-
-app.use((request, res, next) => {
-  console.log(request.headers);
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
-// Using bodyParser as a middle-ware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.get("/", function(req, res) {
-  res.sendfile("byte-app/public/index.html");
-});
-
 // app.post("/login", function(req, res) {
 //   var user_name = req.body.user;
 //   var password = req.body.password;
@@ -62,7 +62,7 @@ app.get("/messages", function(req, res) {
   console.log("Message = " + message);
   // console.log("data(server): ", readData());
   var ref = db.ref("messages/");
-  ref.on(
+  ref.once(
     "value",
     function(snapshot) {
       res.send(snapshot.val());
@@ -82,7 +82,7 @@ app.post("/messages", function(req, res) {
   writeData(message);
   // console.log("data(server): ", readData());
   var ref = db.ref("messages/");
-  ref.on(
+  ref.once(
     "value",
     function(snapshot) {
       res.send(snapshot.val());
