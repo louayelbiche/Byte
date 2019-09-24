@@ -1,2 +1,4 @@
 # Byte
-Byte app
+Message board web app
+
+to start: npm start
