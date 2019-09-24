@@ -12,12 +12,22 @@ class App extends React.Component {
     };
   }
 
-  //Fetche messages from db on launch
+  //Fetch messages from db on launch
   async componentDidMount() {
-    axios.get("/messages").then(response => {
-      let { data } = response;
-      this.setState({ messages: data });
-    });
+    var port = process.env.PORT || 9000;
+    axios
+      .get(
+        window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" +
+          port +
+          "/messages"
+      )
+      .then(response => {
+        let { data } = response;
+        this.setState({ messages: data });
+      });
   }
 
   handleChange = event => {
@@ -26,10 +36,19 @@ class App extends React.Component {
 
   handleSubmit = event => {
     let { currMessage, messages } = this.state;
+    var port = process.env.PORT || 9000;
     axios
-      .post("/messages", {
-        message: currMessage
-      })
+      .post(
+        window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" +
+          port +
+          "/messages",
+        {
+          message: currMessage
+        }
+      )
       .then(response => {
         let { messageID } = response.data;
         let newDate = Date.now();
