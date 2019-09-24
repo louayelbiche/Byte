@@ -1,6 +1,6 @@
 web: node server/server.js
 "scripts": {
-        "start": "node server/server.js"
+        "start": "node server/server.js & cd byte-app && npm start"
 }
 
 "engines": {
