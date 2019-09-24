@@ -3,7 +3,6 @@ var bodyParser = require("body-parser");
 const app = express();
 
 app.use((request, res, next) => {
-  //console.log(request.headers);
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header(
     "Access-Control-Allow-Headers",
@@ -59,12 +58,10 @@ app.get("/messages", function(req, res) {
 });
 
 // Post message to db
-
 app.post("/messages", function(req, res) {
   var message = req.body.message;
   let messageID = writeMessage(message);
   res.send({ messageID });
-  // retrieveMessages(res);
 });
 
 // Retrieve all messages from db

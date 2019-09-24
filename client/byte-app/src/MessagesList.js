@@ -1,15 +1,6 @@
 import React from "react";
 import "./App.css";
 
-// function MessagesList2(props) {
-//   let list = props.content.map((entry, i) => (
-//     <li className="msgListItems">
-//       {entry[0]} {entry[1]}
-//     </li>
-//   ));
-//   return <div className="msgList">{list}</div>;
-// }
-
 class MessagesList extends React.Component {
   constructor(props) {
     super(props);
