@@ -14,7 +14,7 @@ class App extends React.Component {
 
   //Fetche messages from db on launch
   async componentDidMount() {
-    axios.get("http://localhost:9000/messages").then(response => {
+    axios.get("/messages").then(response => {
       let { data } = response;
       this.setState({ messages: data });
     });
@@ -27,7 +27,7 @@ class App extends React.Component {
   handleSubmit = event => {
     let { currMessage, messages } = this.state;
     axios
-      .post("http://localhost:9000/messages", {
+      .post("/messages", {
         message: currMessage
       })
       .then(response => {
