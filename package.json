@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server/server.js & cd byte-app && npm start",
-    "build": "node server/server.js"
+    "build": "webpack"
   },
   "author": "Louay Elbiche",
   "license": "ISC",
