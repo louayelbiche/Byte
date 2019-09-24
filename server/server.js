@@ -85,7 +85,7 @@ function retrieveMessages(res) {
 }
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
-var port = 9000;
+var port = process.env.PORT || 9000;
 
 app.listen(port, function() {
   console.log("server is running on port ", port);
