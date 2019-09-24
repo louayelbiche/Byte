@@ -1,4 +1,4 @@
-web: node server/server.js
+web: node server/server.js & cd byte-app && npm start
 "scripts": {
         "start": "node server/server.js & cd byte-app && npm start"
 }
