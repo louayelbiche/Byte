@@ -17,7 +17,6 @@ class App extends React.Component {
     axios.get("http://localhost:9000/messages").then(response => {
       let { data } = response;
       this.setState({ messages: data });
-      console.log("Messages", data);
     });
   }
 
@@ -41,6 +40,7 @@ class App extends React.Component {
         messages.unshift(newMessage);
         this.setState({ messages }); // triggers render()
       });
+    this.state.currMessage = "";
     event.preventDefault();
   };
 
@@ -49,7 +49,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Welcome to the message board!</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form id="form" onSubmit={this.handleSubmit}>
           <label>
             Type your message here:
             <input
@@ -61,7 +61,6 @@ class App extends React.Component {
           </label>
           <input type="submit" id="submit" value="Post" />
         </form>
-        {/* Display messages in unordered list */}
         <MessagesList messages={messages} />
       </div>
     );
