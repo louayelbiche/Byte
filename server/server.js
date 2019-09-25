@@ -48,17 +48,38 @@ function writeMessage(messageText) {
   return messageID;
 }
 
-const path = require("path");
-// Display html
-app.get("/", function(req, res) {
-  res.sendfile("byte-app/public/index.html");
-});
+const rootpath = require("path").join(__dirname, "byte-app/build");
+//Static file declaration
+app.use(express.static(rootpath));
 
 //production mode
-if (process.env.NODE_ENV === "production");
-{
-  app.use(express.static(path.join(__dirname, "byte-app/build")));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(rootpath.join(__dirname, "byte-app/build")));
+  app.get("*", (req, res) => {
+    res.sendfile("index.html", root);
+  });
 }
+
+//build mode
+app.get("*", (req, res) => {
+  res.sendFile(rootpath.join(__dirname + "/byte-app/public/index.html"));
+});
+
+// //production mode
+// if (process.env.NODE_ENV === "production");
+// {
+//   app.use("/", express.static(path.join(__dirname, "byte-app/public")));
+// }
+
+// // Display html
+// app.get("/", function(req, res) {
+//   res.sendfile("byte-app/public/index.html");
+// });
+
+// app.get("/manifest.json", function(req, res) {
+//   res.sendfile("byte-app/public/manifest.json");
+// });
+
 // Retrieve messages from db
 app.get("/messages", function(req, res) {
   retrieveMessages(res);
