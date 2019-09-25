@@ -12,8 +12,9 @@ app.use((request, res, next) => {
 });
 
 // Using bodyParser as a middle-ware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+app.use(express.json());
 
 // Display html
 app.get("/", function(req, res) {
