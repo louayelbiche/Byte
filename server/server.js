@@ -51,7 +51,7 @@ function writeMessage(messageText) {
 const path = require("path");
 // Display html
 app.get("/", function(req, res) {
-  res.sendfile(path.join(__dirname + "byte-app/public/index.html"));
+  res.sendfile("byte-app/public/index.html");
 });
 
 //production mode
