@@ -54,18 +54,6 @@ function writeMessage(messageText) {
 
 // Retrieve messages from db
 app.get("/messages", function(req, res) {
-  retrieveMessages(res);
-});
-
-// Post message to db
-app.post("/messages", function(req, res) {
-  var message = req.body.message;
-  let messageID = writeMessage(message);
-  res.send({ messageID });
-});
-
-// Retrieve all messages from db
-function retrieveMessages(res) {
   var ref = db.ref("messages/");
   ref.once(
     "value",
@@ -82,11 +70,37 @@ function retrieveMessages(res) {
       console.log("The read failed: " + errorObject.code);
     }
   );
-}
+});
+
+// Post message to db
+app.post("/messages", function(req, res) {
+  var message = req.body.message;
+  let messageID = writeMessage(message);
+  res.send({ messageID });
+});
+
+// Retrieve all messages from db
+function retrieveMessages(res) {}
+
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
-var port = process.env.PORT || 9000;
+var port = process.env.PORT || 5000;
 
 app.listen(port, function() {
   console.log("server is running on port ", port);
+});
+
+const path = require("path");
+
+//production mode
+if (process.env.NODE_ENV === "production");
+{
+  app.use(express.static(path.join(__dirname, "byte-app/build")));
+  app.get("*", (req, res) => {
+    res.sendfile(path.join((__dirname = "byte-app/build/index.html")));
+  });
+}
+//build mode
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/byte-app/public/index.html"));
 });

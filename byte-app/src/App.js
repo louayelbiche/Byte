@@ -10,24 +10,20 @@ class App extends React.Component {
       messages: [],
       currMessage: ""
     };
+    this.connecToServer = this.connecToServer.bind(this);
+  }
+
+  connecToServer() {
+    var port = process.env.PORT || 5000;
+    axios.get("/messages").then(response => {
+      let { data } = response;
+      this.setState({ messages: data });
+    });
   }
 
   //Fetch messages from db on launch
-  async componentDidMount() {
-    var port = process.env.PORT || 9000;
-    axios
-      .get(
-        window.location.protocol +
-          "//" +
-          window.location.hostname +
-          ":" +
-          port +
-          "/messages"
-      )
-      .then(response => {
-        let { data } = response;
-        this.setState({ messages: data });
-      });
+  componentDidMount() {
+    this.connecToServer();
   }
 
   handleChange = event => {
@@ -36,19 +32,11 @@ class App extends React.Component {
 
   handleSubmit = event => {
     let { currMessage, messages } = this.state;
-    var port = process.env.PORT || 9000;
+    var port = process.env.PORT || 5000;
     axios
-      .post(
-        window.location.protocol +
-          "//" +
-          window.location.hostname +
-          ":" +
-          port +
-          "/messages",
-        {
-          message: currMessage
-        }
-      )
+      .post("/messages", {
+        message: currMessage
+      })
       .then(response => {
         let { messageID } = response.data;
         let newDate = Date.now();
