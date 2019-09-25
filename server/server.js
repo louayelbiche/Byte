@@ -48,7 +48,7 @@ function writeMessage(messageText) {
   return messageID;
 }
 
-const rootpath = require("path").join(__dirname, "byte-app/build");
+const rootpath = require("path");
 //Static file declaration
 app.use(express.static(rootpath));
 
@@ -56,7 +56,7 @@ app.use(express.static(rootpath));
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(rootpath.join(__dirname, "byte-app/build")));
   app.get("*", (req, res) => {
-    res.sendfile("index.html", root);
+    res.sendfile("index.html");
   });
 }
 
