@@ -53,20 +53,16 @@ function writeMessage(messageText) {
   return messageID;
 }
 
+//production mode
+const path = require("path");
+if (process.env.NODE_ENV === "production");
+{
+  app.use(express.static(path.join(__dirname, "byte-app/build")));
+}
 // Retrieve messages from db
 app.get("/messages", function(req, res) {
   retrieveMessages(res)
 });
-
-
-const path = require("path");
-
-//production mode
-if (process.env.NODE_ENV === "production");
-{
-  app.use(express.static(path.join(__dirname, "byte-app/build")));
-  retrieveMessages(res)
-}
 
 // Post message to db
 app.post("/messages", function(req, res) {
