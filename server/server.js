@@ -16,11 +16,6 @@ app.use((request, res, next) => {
 // app.use(bodyParser.json());
 app.use(express.json());
 
-// Display html
-app.get("/", function(req, res) {
-  res.sendfile(path.join(__dirname + "byte-app/public/index.html");
-});
-
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 var firebase = require("firebase/app");
@@ -53,15 +48,20 @@ function writeMessage(messageText) {
   return messageID;
 }
 
-//production mode
 const path = require("path");
+// Display html
+app.get("/", function(req, res) {
+  res.sendfile(path.join(__dirname + "byte-app/public/index.html"));
+});
+
+//production mode
 if (process.env.NODE_ENV === "production");
 {
   app.use(express.static(path.join(__dirname, "byte-app/build")));
 }
 // Retrieve messages from db
 app.get("/messages", function(req, res) {
-  retrieveMessages(res)
+  retrieveMessages(res);
 });
 
 // Post message to db
