@@ -48,21 +48,21 @@ function writeMessage(messageText) {
   return messageID;
 }
 
-const rootpath = require("path");
+const path = require("path");
 //Static file declaration
-app.use(express.static(rootpath));
+app.use(express.static(path.join(__dirname, "byte-app/build")));
 
 //production mode
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(rootpath.join(__dirname, "byte-app/build")));
+  app.use(express.static(path.join(__dirname, "byte-app/build")));
   app.get("*", (req, res) => {
-    res.sendfile("index.html");
+    res.sendfile(path.join((__dirname = "byte-app/build/index.html")));
   });
 }
 
 //build mode
 app.get("*", (req, res) => {
-  res.sendFile(rootpath.join(__dirname + "/byte-app/public/index.html"));
+  res.sendFile(path.join(__dirname + "/byte-app/public/index.html"));
 });
 
 // //production mode
