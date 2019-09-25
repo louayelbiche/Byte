@@ -7,7 +7,7 @@
     "server": "nodemon server/server.js",
     "client": "npm start --prefix byte-app",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix byte-app && npm run build --prefix byte-app"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix byte-app && npm run build --prefix byte-app && npm run rebuild --prefix byte-app"
   },
   "author": "Louay Elbiche",
   "license": "ISC",
