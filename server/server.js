@@ -60,6 +60,39 @@ if (process.env.NODE_ENV === "production") {
     res.sendfile(path.join((__dirname = "byte-app/build/index.html")));
     console.log("sending html from if Production");
   });
+  // dublicate operations
+  // Retrieve messages from db
+  console.log("1about to retrieve messages");
+  app.get("/messages", function(req, res) {
+    console.log("1now retrieving messages");
+    console.log("1db:", db);
+    var ref = db.ref("messages/");
+    console.log("1ref", ref);
+    ref.once(
+      "value",
+      function(snapshot) {
+        let rawData = snapshot.val();
+        let messages = [];
+        for (var id in rawData) {
+          messages.push({ id, ...rawData[id] });
+        }
+
+        res.send(messages.reverse());
+        console.log("1messages in server:", messages);
+      },
+      function(errorObject) {
+        console.log("1The read failed: " + errorObject.code);
+      }
+    );
+  });
+
+  // Post message to db
+  app.post("/messages", function(req, res) {
+    console.log("1posting");
+    var message = req.body.message;
+    let messageID = writeMessage(message);
+    res.send({ messageID });
+  });
 }
 console.log("Production: ", path.join(__dirname, "../byte-app/build"));
 console.log(
