@@ -81,6 +81,7 @@ app.get("/", function(req, res) {
 });
 
 // Retrieve messages from db
+console.log("about to retrieve messages");
 app.get("/messages", function(req, res) {
   console.log("db:", db);
   var ref = db.ref("messages/");
