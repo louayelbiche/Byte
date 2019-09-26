@@ -82,7 +82,9 @@ app.get("/", function(req, res) {
 
 // Retrieve messages from db
 app.get("/messages", function(req, res) {
+  console.log("db:", db);
   var ref = db.ref("messages/");
+  console.log("ref", ref);
   ref.once(
     "value",
     function(snapshot) {
@@ -93,7 +95,7 @@ app.get("/messages", function(req, res) {
       }
 
       res.send(messages.reverse());
-      console.log(messages);
+      console.log("messages in server:", messages);
     },
     function(errorObject) {
       console.log("The read failed: " + errorObject.code);
