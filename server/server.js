@@ -82,18 +82,6 @@ app.get("/", function(req, res) {
 
 // Retrieve messages from db
 app.get("/messages", function(req, res) {
-  retrieveMessages(res);
-});
-
-// Post message to db
-app.post("/messages", function(req, res) {
-  var message = req.body.message;
-  let messageID = writeMessage(message);
-  res.send({ messageID });
-});
-
-// Retrieve all messages from db
-function retrieveMessages(res) {
   var ref = db.ref("messages/");
   ref.once(
     "value",
@@ -105,12 +93,40 @@ function retrieveMessages(res) {
       }
 
       res.send(messages.reverse());
+      console.log(messages);
     },
     function(errorObject) {
       console.log("The read failed: " + errorObject.code);
     }
   );
-}
+});
+
+// Post message to db
+app.post("/messages", function(req, res) {
+  var message = req.body.message;
+  let messageID = writeMessage(message);
+  res.send({ messageID });
+});
+
+// // Retrieve all messages from db
+// function retrieveMessages(res) {
+//   var ref = db.ref("messages/");
+//   ref.once(
+//     "value",
+//     function(snapshot) {
+//       let rawData = snapshot.val();
+//       let messages = [];
+//       for (var id in rawData) {
+//         messages.push({ id, ...rawData[id] });
+//       }
+
+//       res.send(messages.reverse());
+//     },
+//     function(errorObject) {
+//       console.log("The read failed: " + errorObject.code);
+//     }
+//   );
+// }
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
