@@ -14,7 +14,6 @@ class App extends React.Component {
   }
 
   connecToServer() {
-    var port = process.env.PORT || 5000;
     axios.get("/messages").then(response => {
       let { data } = response;
       this.setState({ messages: data });
@@ -32,7 +31,6 @@ class App extends React.Component {
 
   handleSubmit = event => {
     let { currMessage, messages } = this.state;
-    var port = process.env.PORT || 5000;
     axios
       .post("/messages", {
         message: currMessage
