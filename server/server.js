@@ -75,7 +75,7 @@ console.log(
   path.join(__dirname + "/byte-app/public/index.html")
 );
 
-// Old Display html
+// Display html
 app.get("/", function(req, res) {
   res.sendfile("byte-app/public/index.html");
 });
@@ -83,6 +83,7 @@ app.get("/", function(req, res) {
 // Retrieve messages from db
 console.log("about to retrieve messages");
 app.get("/messages", function(req, res) {
+  console.log("now retrieving messages");
   console.log("db:", db);
   var ref = db.ref("messages/");
   console.log("ref", ref);
