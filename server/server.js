@@ -56,7 +56,7 @@ console.log("Static:", path.join(__dirname, "../byte-app/build"));
 //production mode
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../byte-app/build")));
-  app.get("*", (req, res) => {
+  app.get("/", (req, res) => {
     res.sendfile(path.join((__dirname = "byte-app/build/index.html")));
     console.log("sending html from if Production");
   });
