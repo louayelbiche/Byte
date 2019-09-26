@@ -50,35 +50,35 @@ function writeMessage(messageText) {
 
 const path = require("path");
 //Static file declaration
-app.use(express.static(path.join(__dirname, "byte-app/build")));
+app.use(express.static(path.join(__dirname, "../byte-app/build")));
+console.log("Static:", path.join(__dirname, "../byte-app/build"));
 
 //production mode
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "byte-app/build")));
+  app.use(express.static(path.join(__dirname, "../byte-app/build")));
   app.get("*", (req, res) => {
-    res.sendfile(path.join((__dirname, "byte-app/build/index.html")));
+    res.sendfile(path.join((__dirname = "byte-app/build/index.html")));
   });
 }
+console.log("Production: ", path.join(__dirname, "../byte-app/build"));
+console.log(
+  "Production send: ",
+  path.join((__dirname = "byte-app/build/index.html"))
+);
 
-//build mode
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/byte-app/public/index.html"));
+// //build mode
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "/byte-app/public/index.html"));
+// });
+console.log(
+  "Build send: ",
+  path.join(__dirname + "/byte-app/public/index.html")
+);
+
+// Old Display html
+app.get("/", function(req, res) {
+  res.sendfile("byte-app/public/index.html");
 });
-
-// //production mode
-// if (process.env.NODE_ENV === "production");
-// {
-//   app.use("/", express.static(path.join(__dirname, "byte-app/public")));
-// }
-
-// // Display html
-// app.get("/", function(req, res) {
-//   res.sendfile("byte-app/public/index.html");
-// });
-
-// app.get("/manifest.json", function(req, res) {
-//   res.sendfile("byte-app/public/manifest.json");
-// });
 
 // Retrieve messages from db
 app.get("/messages", function(req, res) {
