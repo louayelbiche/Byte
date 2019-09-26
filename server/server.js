@@ -49,31 +49,23 @@ function writeMessage(messageText) {
 const path = require("path");
 //Static file declaration
 app.use(express.static(path.join(__dirname, "../byte-app/build")));
-console.log("Static:", path.join(__dirname, "../byte-app/build"));
 
 //production mode
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../byte-app/build")));
   app.get("/", (req, res) => {
     res.sendfile(path.join((__dirname = "byte-app/build/index.html")));
-    console.log("sending html from if Production");
   });
 }
 
 // build mode Display html
 app.get("/", function(req, res) {
-  console.log("about to send index.html");
   res.sendfile("byte-app/public/index.html");
-  console.log("sent index.html");
 });
 
 // Retrieve messages from db
-console.log("about to retrieve messages");
 app.get("/messages", function(req, res) {
-  console.log("now retrieving messages");
-  console.log("db:", db);
   var ref = db.ref("messages/");
-  console.log("ref", ref);
   ref.once(
     "value",
     function(snapshot) {
